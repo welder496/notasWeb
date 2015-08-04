@@ -1,0 +1,22 @@
+ var search = (function($){   
+
+     var response;
+
+     var getAll = function(callback){
+     $.ajax({
+       type: "GET",
+       url: "http://localhost:12345/notas/notas/all",
+       success: function(res){
+	  callback(res);
+       },
+       error: function (XMLHttpRequest, textStatus, errorThrown) {
+         alert(errorThrown);
+       }	
+     });
+    };
+
+    return {
+      get: getAll,
+    };	
+
+})(jQuery);

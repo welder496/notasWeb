@@ -1,0 +1,49 @@
+extends layout
+
+block css
+   link(rel='stylesheet', href='/stylesheets/tokenfield/css/bootstrap-tokenfield.css')
+   link(rel='stylesheet', href='/stylesheets/jquery-ui/jquery-ui.css')
+   link(rel='stylesheet', href='/stylesheets/editors5/dist/bootstrap3-wysihtml5.css')
+   link(rel='stylesheet', href='/stylesheets/editors5/dist/bootstrap3-wysihtml5-editor.css')
+
+block content
+   form.form-horizontal(id="form-data" role="form")
+      div.form-group
+         label.control-label.col-sm-2(for="codigo") Código:
+         div.col-sm-2
+            input#insertCodigo.form-control(type="text" placeholder="Insira um número")
+      div.form-group
+         label.control-label.col-sm-2(for="nota") Nota:
+         div.col-sm-10
+            textarea#insertNota.form-control(rows="20" placeholder="Escreva uma nota ou descrição aqui!!")
+      div.form-group
+         label.control-label.col-sm-2(for="arquivo") Arquivo:
+         div.col-sm-4
+            div.input-group
+               input#insertArquivos.form-control(type="file" name="file" placeholder="Insira um arquivo aqui!!" multiple)
+      div.form-group
+         label.control-label.col-sm-2(for="tags") Tags:
+         div.col-sm-10
+            input#insertTags.form-control(type="text" placeholder="Insira tags aqui!!")
+      div.form-group
+         div.col-sm-offset-2.col-sm-10
+            button#insertEnviar.btn.btn-default Salvar
+      div.modal.js-loading-bar
+         div.modal-dialog
+            div.modal-content
+               div.modal-header
+                  div.modal-title Enviando arquivos ...
+               div.modal-body
+                  div.progress.active
+                     div.progress-bar(role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100")
+block script
+   script(src='/stylesheets/tokenfield/bootstrap-tokenfield.js')
+   script(src='/javascripts/componentsInit/tokenfields.js')
+   script(src='/javascripts/components/sendInsertButtonOnClick.js')
+   script(src='/javascripts/components/insertCodigoKeyUp.js')
+
+   script(src='/stylesheets/editors5/dist/wysihtml5x-toolbar.min.js')
+   script(src='/stylesheets/editors5/dist/bootstrap3-wysihtml5.js')
+
+
+   script(src='/javascripts/componentsInit/textAreaEditor.js')

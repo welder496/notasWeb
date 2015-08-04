@@ -1,0 +1,58 @@
+var showTable = function(res) {
+          $('#table_nota').dataTable().fnClearTable();	
+          $.each(res, function(i,item) {
+            $('#table_nota').dataTable().fnAddData([item.codigo,item.nota+"<br/><br/><em><strong>Tags: </strong></em>"+item.tags,"",""]);
+       	  });
+}
+
+function searchForRequeriments(){
+  var requisito = $('#nota').val();
+
+  if (requisito != "") {
+    $.ajax({
+       type: "GET",
+       url: "http://localhost:12345/notas/notas/like/"+requisito,
+       success: function(res){
+          $('#table_requisito').dataTable().fnClearTable();	
+          $.each(res, function(i,item) {
+            $('#table_requisito').dataTable().fnAddData([item.numero,item.requisito+"<br/><br/><em><strong>Tags: </strong></em>"+item.tags,"",""]);
+       	  });
+       },
+       error: function (XMLHttpRequest, textStatus, errorThrown) {
+         alert(errorThrown);
+       }	
+     });
+  } else {
+    $.ajax({
+       type: "GET",
+       url: "http://localhost:12345/notas/notas/all",
+       success: function(res){
+          $('#table_requisito').dataTable().fnClearTable();	
+          $.each(res, function(i,item) {
+            $('#table_requisito').dataTable().fnAddData([item.numero,item.requisito+"<br/><br/><em><strong>Tags: </strong></em>"+item.tags,"",""]);
+       	  });
+       },
+       error: function (XMLHttpRequest, textStatus, errorThrown) {
+         alert(errorThrown);
+       }	
+     });
+  }
+}
+
+$(window).on('load',function(event){
+  searchForRequeriments();
+});
+
+$('#requisito').on('input', function(event){
+  searchForRequeriments();
+});
+
+$('#requisito').on('blur',function(event){
+  searchForRequeriments();
+});
+
+$('#button_requisito').on('click', function(event){
+  searchForRequeriments();
+  event.preventDefault();
+});
+

@@ -1,0 +1,161 @@
+function searchForTagsOr() {
+  var tags = $("#tags").val();
+  var vector = tags.split(",");
+  
+  //Coleta todos os campos da busca por tag.
+  var parameters = "";
+  if (vector instanceof Array){
+   if (vector[0] != "") {
+     parameters=parameters+"tags="+vector[0].trim();
+     for (var i=1;i<vector.length;i++) {
+      parameters=parameters+"&tags="+vector[i].trim();
+     }
+   }
+  }
+
+  if (parameters != "") {
+     parameters="?"+parameters;
+     $.ajax({
+       type: "GET",
+       url: "http://localhost:12345/requisitos/requisitos/tags/or"+parameters,
+       success: function(res){
+          $('#table_tags').dataTable().fnClearTable();	
+          $.each(res, function(i,item) {
+            $('#table_tags').dataTable().fnAddData([item.numero,item.requisito]);
+       	  });
+       },
+       error: function (XMLHttpRequest, textStatus, errorThrown) {
+         alert(errorThrown);
+       }	
+     });
+  } else {
+     $.ajax({
+       type: "GET",
+       url: "http://localhost:12345/requisitos/requisitos/all",
+       success: function(res){
+          $('#table_tags').dataTable().fnClearTable();	
+          $.each(res, function(i,item) {
+            $('#table_tags').dataTable().fnAddData([item.numero,item.requisito]);
+       	  });
+       },
+       error: function (XMLHttpRequest, textStatus, errorThrown) {
+         alert(errorThrown);
+       }	
+     });	   
+  }
+}
+
+function searchForTagsAnd() {
+  var tags = $("#tags").val();
+  var vector = tags.split(",");
+  
+  //Coleta todos os campos da busca por tag.
+  var parameters = "";
+  if (vector instanceof Array){
+   if (vector[0] != "") {
+     parameters=parameters+"tags="+vector[0].trim();
+     for (var i=1;i<vector.length;i++) {
+      parameters=parameters+"&tags="+vector[i].trim();
+     }
+   }
+  }
+
+  if (parameters != "") {
+     parameters="?"+parameters;
+     $.ajax({
+       type: "GET",
+       url: "http://localhost:12345/requisitos/requisitos/tags/and"+parameters,
+       success: function(res){
+          $('#table_tags').dataTable().fnClearTable();	
+          $.each(res, function(i,item) {
+            $('#table_tags').dataTable().fnAddData([item.numero,item.requisito]);
+       	  });
+       },
+       error: function (XMLHttpRequest, textStatus, errorThrown) {
+         alert(errorThrown);
+       }	
+     });
+  } else {
+     $.ajax({
+       type: "GET",
+       url: "http://localhost:12345/requisitos/requisitos/all",
+       success: function(res){
+          $('#table_tags').dataTable().fnClearTable();	
+          $.each(res, function(i,item) {
+            $('#table_tags').dataTable().fnAddData([item.numero,item.requisito]);
+       	  });
+       },
+       error: function (XMLHttpRequest, textStatus, errorThrown) {
+         alert(errorThrown);
+       }	
+     });	   
+  }
+}
+
+function searchForTagsLike() {
+  var tags = $("#tags").val();
+  var vector = tags.split(",");
+  
+  //Coleta todos os campos da busca por tag.
+  var parameters = "";
+  if (vector instanceof Array){
+   if (vector[0] != "") {
+     parameters=parameters+"tags="+vector[0].trim();
+     for (var i=1;i<vector.length;i++) {
+      parameters=parameters+"&tags="+vector[i].trim();
+     }
+   }
+  }
+
+  if (parameters != "") {
+     parameters="?"+parameters;
+     $.ajax({
+       type: "GET",
+       url: "http://localhost:12345/requisitos/requisitos/tags/like"+parameters,
+       success: function(res){
+          $('#table_tags').dataTable().fnClearTable();	
+          $.each(res, function(i,item) {
+            $('#table_tags').dataTable().fnAddData([item.numero,item.requisito]);
+       	  });
+       },
+       error: function (XMLHttpRequest, textStatus, errorThrown) {
+         alert(errorThrown);
+       }	
+     });
+  } else {
+     $.ajax({
+       type: "GET",
+       url: "http://localhost:12345/requisitos/requisitos/all",
+       success: function(res){
+          $('#table_tags').dataTable().fnClearTable();	
+          $.each(res, function(i,item) {
+            $('#table_tags').dataTable().fnAddData([item.numero,item.requisito]);
+       	  });
+       },
+       error: function (XMLHttpRequest, textStatus, errorThrown) {
+         alert(errorThrown);
+       }	
+     });	   
+  }
+}
+
+
+$(window).on('load',function(event){
+  searchForTagsOr();
+});
+
+$('#button_OR').on('click', function(event){
+  searchForTagsOr();
+  event.preventDefault();
+});
+
+$('#button_AND').on('click',function(event){
+  searchForTagsAnd();
+  event.preventDefault();
+});
+
+$('#button_LIKE').on('click',function(event){
+  searchForTagsLike();
+  event.preventDefault();
+});
+

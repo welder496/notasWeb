@@ -1,0 +1,276 @@
+/**
+ * 
+ * Library notasAjax
+ * Group of routines to comunicate with mongoDB with REST
+ * It is a REST (Representational State Transfer) library
+ * Written by: Welder Maurício de Souza
+ * 
+ */ 
+
+var notasAjax = (function($){   
+
+     var getMultiPart = function(newdata){
+	$.ajax({
+		type:"POST",
+		url: "http://localhost:12345/notas/notas/multipart",
+		data: newdata,
+		mimeType: "multipart/form-data",
+		cache: false,
+		contentType: false,
+		processData: false,
+		success: function(data){
+			alert("Funcionou!!");
+		},
+		error: function (XMLHttpRequest, textStatus, errorThrown){
+			alert("Falhou!!");
+		}
+	});
+     };	
+
+
+     var getNotas = function(callback){
+    	 $.ajax({
+    		 type: "GET",
+    		 url: "http://localhost:12345/notas/notas/all",
+    		 success: function(res){
+    			 callback(res);
+    		 },
+    		 error: function (XMLHttpRequest, textStatus, errorThrown) {
+    			bootbox.alert("Erro ao buscar todas as notas");
+    		 }	
+    	 });
+     };
+
+     var newNota = function(notadata){
+ 	if (notadata instanceof Object){
+		 if (typeof(notadata.tags) == "string"){
+			var temp = notadata.tags;
+			notadata.tags = [String];
+			if (temp.indexOf(',') > 0){
+				var vector = temp.split(',');
+				for (var i=0; i < vector.length; i++){
+					vector[i]=vector[i].trim();				
+				}				
+				notadata.tags=vector;
+			} else {
+				notadata.tags = temp;			
+			}
+		 }	
+         	 if (notadata.codigo!="" && notadata.nota!="" && notadata.tags!=""){  	 
+         		 $.ajax({
+         			 type: "POST",
+         			 url: "http://localhost:12345/notas/notas/new",
+         			 data: notadata,
+				 mimeType: "multipart/form-data",
+				 cache: false,
+			         contentType: false,
+				 processData: false,
+         			 success: function(data){
+				 },
+         			 error: function (XMLHttpRequest, textStatus, errorThrown) {
+         				 bootbox.alert("Erro ao criar nova nota");
+         			 }	
+         		 });
+         	 } else {
+                         bootbox.alert("Todos os campos devem ser preenchidos!!");
+         	 }
+         } else {
+                 bootbox.alert("Tipo de dados enviados está incorreto!!");
+         }
+     };	
+
+     var getNotasLike = function(parameters,callback){
+    	 if (parameters!=""){
+    		 $.ajax({
+    			 type: "GET",
+    			 url: "http://localhost:12345/notas/notas/like/"+parameters,
+    			 success: function(res){
+    				 callback(res);
+    			 },
+    			 error: function (XMLHttpRequest, textStatus, errorThrown) {
+    				 bootbox.alert("Erro ao pesquisar uma nota");
+    			 }	
+    		 });   
+    	 } else {
+		 bootbox.alert("Parâmetros não foram definidos!!");
+    	 }
+     };
+
+     var deleteNotaById = function(id,callback){
+    	 if (id!="") {  
+    		 $.ajax({
+    			 type: "DELETE",
+    			 url: "http://localhost:12345/notas/notas/id/"+id,
+    			 success: function(res){
+    				 callback(res);
+    			 },
+    			 error: function (XMLHttpRequest, textStatus, errorThrown) {
+    				 bootbox.alert("Erro ao apagar uma nota");;
+    			 }	
+    		 });     
+    	 } else {
+		 bootbox.alert("Foi impossível apagar nota: id não foi informado!!");
+     	 }  
+     };
+
+     var deleteNotaByCodigo = function(codigo,callback){
+    	 if (codigo!="") {  
+    		 $.ajax({
+    			 type: "DELETE",
+    			 url: "http://localhost:12345/notas/notas/codigo/"+id,
+    			 success: function(res){
+    				 callback(res);
+    			 },
+    			 error: function (XMLHttpRequest, textStatus, errorThrown) {
+    				 bootbox.alert("Erro ao buscar nota do banco de dados!!");
+    			 }	
+    		 });     
+    	 } else {
+                 bootbox.alert("Foi impossível apagar nota: código não foi encontrado!!");
+    	 }       
+     };
+
+     var getNotaByCodigo = function(codigo,callback){
+    	 if (codigo!="") {  
+    		 $.ajax({
+    			 type: "GET",
+    			 url: "http://localhost:12345/notas/notas/codigo/"+codigo,
+    			 success: function(res){
+    				 callback(res);
+    			 },
+    			 error: function (XMLHttpRequest, textStatus, errorThrown) {
+    				 bootbox.alert("Erro ao buscar nota do banco de dados!!");
+    			 }	
+    		 });     
+    	 } else {
+		 bootbox.alert("Código não foi informado!!");
+    	 }          
+     };
+	
+     var getNotaById = function(id,callback){
+    	 if (id!="") {  
+    		 $.ajax({
+    			 type: "GET",
+    			 url: "http://localhost:12345/notas/notas/id/"+id,
+    			 success: function(res){
+    				 callback(res);
+    			 },
+    			 error: function (XMLHttpRequest, textStatus, errorThrown) {
+    				 bootbox.alert("Erro ao buscar nota do banco de dados!!");
+    			 }	
+    		 });     
+    	 } else {
+		 bootbox.alert("Identificador não foi informado!!");
+    	 }          
+     };
+
+     var getNotasByTagsOr = function(tags,callback){
+         var vector = tags.split(",");
+  
+         //Coleta todos os campos da busca por tag.
+         var parameters = "";
+         if (vector instanceof Array){
+        	if (vector[0] != "") {
+        	  parameters=parameters+"tags="+vector[0].trim();
+        	  for (var i=1;i<vector.length;i++) {
+        		  parameters=parameters+"&tags="+vector[i].trim();
+        	  }
+          	}
+         }
+
+         if (parameters!="") {
+        	 parameters="?"+parameters;  
+        	 $.ajax({
+      	   		type: "GET",
+      	   		url: "http://localhost:12345/notas/notas/tags/or"+parameters,
+      	   		success: function(res){
+      	   			callback(res);
+      	   		},
+      	   		error: function (XMLHttpRequest, textStatus, errorThrown) {
+      	   			bootbox.alert("Erro ao buscar nota do banco de dados!!");
+      	   		}	
+        	 });     
+         } else {
+                 bootbox.alert("Parametros não foram definidos corretamente!!");
+         }               
+     };
+
+     var getNotasByTagsAnd = function(tags,callback){ 	 
+    	  var vector = tags.split(",");
+    	  
+    	  //Coleta todos os campos da busca por tag.
+    	  var parameters = "";
+    	  if (vector instanceof Array){
+    		  if (vector[0] != "") {
+    			  parameters=parameters+"tags="+vector[0].trim();
+    			  for (var i=1;i<vector.length;i++) {
+    				  parameters=parameters+"&tags="+vector[i].trim();
+    			  }
+    		  }
+    	  }
+    	 
+    	 if (parameters!="") {
+    		 parameters="?"+parameters;  
+    		 $.ajax({
+    			 type: "GET",
+    			 url: "http://localhost:12345/notas/notas/tags/and"+parameters,
+    			 success: function(res){
+    				 callback(res);
+    			 },
+    			 error: function (XMLHttpRequest, textStatus, errorThrown) {
+    				 bootbox.alert("Erro ao buscar nota do banco de dados!!");
+    			 }	
+    		 });     
+    	 } else {
+                 bootbox.alert("Parametros não foram definidos corretamente!!");
+   	 }                    
+     };
+
+     var getNotasByTagsLike = function(tags,callback){
+
+    	 var vector = tags.split(",");
+  
+    	 //Coleta todos os campos da busca por tag.
+    	 var parameters = "";
+    	 if (vector instanceof Array){
+    		 if (vector[0] != "") {
+    			 parameters=parameters+"tags="+vector[0].trim();
+    			 for (var i=1;i<vector.length;i++) {
+    				 parameters=parameters+"&tags="+vector[i].trim();
+    			 }
+    		 }
+    	 }
+
+
+    	 if (parameters!="") {
+    		 parameters="?"+parameters;  
+    		 $.ajax({
+    			 type: "GET",
+    			 url: "http://localhost:12345/notas/notas/tags/like"+parameters,
+    			 success: function(res){
+    				 callback(res);
+    			 },
+    			 error: function (XMLHttpRequest, textStatus, errorThrown) {
+    				 bootbox.alert("Erro ao buscar nota do banco de dados!!");
+    			 }	
+    		 });     
+    	 } else {
+                 bootbox.alert("Parametros não foram definidos corretamente!!");
+    	 }           
+     };	
+
+     return {
+    	 getNotas: getNotas,
+    	 newNota: newNota,
+    	 getNotasLike: getNotasLike,
+    	 deleteNotaById: deleteNotaById,
+    	 deleteNotaByCodigo: deleteNotaByCodigo,
+    	 getNotaById: getNotaById,
+    	 getNotaByCodigo: getNotaByCodigo,
+    	 getNotasByTagsOr: getNotasByTagsOr,
+    	 getNotasByTagsAnd: getNotasByTagsAnd,
+    	 getNotasByTagsLike: getNotasByTagsLike,
+	 getMultiPart: getMultiPart
+     };	
+
+})(jQuery);

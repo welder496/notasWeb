@@ -1,0 +1,36 @@
+var showTable = function(res) {
+          $('#table_nota').dataTable().fnClearTable();	
+          $.each(res, function(i,item) {
+            $('#table_nota').dataTable().fnAddData([item.codigo,item.nota+"<br/><br/><em><strong>Tags: </strong></em>"+item.tags,"",""]);
+       	  });
+}
+
+function searchForRequeriments(){
+  var nota = $('#nota').val();
+
+  if (nota != "") {
+    notasAjax.getNotasLike(nota,showTable);
+  } else {
+    notasAjax.getNotas(showTable);
+  }
+}
+
+$(window).on('load',function(event){
+  searchForRequeriments();
+});
+
+$('#nota').on('input', function(event){
+  searchForRequeriments();
+  event.preventDefault();
+});
+
+$('#nota').on('blur',function(event){
+  searchForRequeriments();
+  event.preventDefault();  
+});
+
+$('#button_requisito').on('click', function(event){
+  searchForRequeriments();
+  event.preventDefault();
+});
+

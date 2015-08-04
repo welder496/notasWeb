@@ -1,0 +1,15 @@
+$(document).load(function(event){
+   $.ajax({
+       type: "GET",
+       url: "http://localhost:12345/requisitos/requisitos/all",
+       success: function(res){
+          $('#table_numero').dataTable().fnClearTable();	
+          $.each(res, function(i,item) {
+            $('#table_numero').dataTable().fnAddData([item.numero,item.requisito]);
+       	  });
+       },
+       error: function (XMLHttpRequest, textStatus, errorThrown) {
+         alert(errorThrown);
+       }	
+     });
+});

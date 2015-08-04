@@ -1,0 +1,17 @@
+$('#enviar').on('click', function(event) {
+	var codigo = $('#codigo').val();
+	var nota = $('#nota').val();
+	var tags = $('#tags').val();
+	var arquivos = $('#arquivos').val();
+
+	if (codigo!="" && nota!="" && tags!=""){
+		var nota = {
+				codigo: codigo,
+				nota: nota,
+				tags: tags,
+				arquivos: arquivos
+		};
+
+		notasAjax.newNota(nota);
+	}	   
+});

@@ -1,0 +1,8 @@
+$('#formdata').on('submit', function(event){
+	var formData = new FormData();	
+
+	formData.append("campo", $("campo").val());
+	formData.append("file", $("file").get(0).files[0]);
+
+	notasAjax.getMultiPart(formData);
+});

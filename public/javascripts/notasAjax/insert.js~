@@ -1,0 +1,27 @@
+$('#enviar').on('click', function(event) {
+  var num = $('#numero').val();
+  var req = $('#requisito').val();
+  var tags = $('#tags').val();
+
+  if (num!="" && req!="" && tags!=""){
+    var req = {
+      codigo: num,
+      nota: req,
+      tags: tags
+    };
+
+    $.ajax({
+      type: "POST",
+      url: "http://localhost:12345/notas/notas/new",
+      data: req,
+      success: function(data){
+       
+      },
+      error: function (XMLHttpRequest, textStatus, errorThrown) {
+        alert(errorThrown);
+      }	
+    });
+  } else {
+    alert("Preencha os campos para inserção!!");
+  }
+});

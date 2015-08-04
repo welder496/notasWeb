@@ -1,0 +1,72 @@
+var populateTable = function(res){
+          $('#table_tags').dataTable().fnClearTable();	
+          $.each(res, function(i,item){
+            $('#table_tags').dataTable().fnAddData([item.codigo,item.nota+"<br/><br/><em><strong>Tags: </strong></em>"+item.tags,"",""]);
+       	  });
+}
+
+function searchForTagsAll(){
+  notasAjax.getNotas(populateTable);
+}
+
+function searchForTagsOr() {
+  var tags = $("#tags").val();
+
+  if (tags!="") {
+    notasAjax.getNotasByTagsOr(tags,populateTable);
+  } else {
+    notasAjax.getNotas(populateTable);   
+  }
+}
+
+function searchForTagsAnd() {
+  var tags = $("#tags").val();
+
+  if (tags!=""){
+    notasAjax.getNotasByTagsAnd(tags,populateTable);
+  } else {
+    notasAjax.getNotas(populateTable);	   
+  }
+}
+
+function searchForTagsLike() {
+  var tags = $("#tags").val();
+
+  if (tags!=""){  
+    notasAjax.getNotasByTagsLike(tags,populateTable);
+  } else {
+    notasAjax.getNotas(populateTable);   
+  }
+}
+
+
+$(window).on('load',function(event){
+  searchForTagsAll();
+  event.preventDefault();
+});
+
+$('#tags').on('input', function(event){
+  searchForTagsAll();
+  event.preventDefault();
+});
+
+$('#tags').on('blur',function(event){
+  searchForTagsAll();
+  event.preventDefault();
+});
+
+$('#button_OR').on('click', function(event){
+  searchForTagsOr();
+  event.preventDefault();
+});
+
+$('#button_AND').on('click',function(event){
+  searchForTagsAnd();
+  event.preventDefault();
+});
+
+$('#button_LIKE').on('click',function(event){
+  searchForTagsLike();
+  event.preventDefault();
+});
+

@@ -1,0 +1,27 @@
+extends layout
+
+block css
+   link(rel='stylesheet' href='/stylesheets/datatables/media/css/jquery.dataTables.css')
+   link(rel='stylesheet' href='/stylesheets/jquery-ui/jquery-ui.css')
+
+block content
+   form.form-horizontal(role="form" id="formCodigo")
+      div.form-group
+         label.control-label.col-sm-2(for="codigo") Código:
+         div.col-sm-2
+            div.input-group
+               input#searchCodigo.form-control(type="text" placeholder="Insira um código")
+               span.input-group-btn
+                  button#buttonCodigo.btn.btn-default
+                     span.glyphicon.glyphicon-search
+   div.row
+      div.col-sm-offset-2.col-sm-10
+         table#tableCodigo.display
+block script
+   script(src='/stylesheets/datatables/media/js/jquery.js')
+   script(src='/stylesheets/datatables/media/js/jquery.dataTables.js')
+   script(src='/javascripts/componentsInit/tables.js')
+   script(src='/javascripts/components/searchForCodigo.js')
+   script(src='/javascripts/components/searchCodigoKeyUp.js')
+
+

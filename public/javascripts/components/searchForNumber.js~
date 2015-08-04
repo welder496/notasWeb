@@ -1,0 +1,33 @@
+var showTable = function(res){
+          $('#table_codigo').dataTable().fnClearTable();	
+          $.each(res, function(i,item) {
+            $('#table_codigo').dataTable().fnAddData([item.codigo,item.nota+"<br/><br/><em><strong>Tags: </strong></em>"+item.tags,"",""]);
+       	  });
+}
+
+function searchForNumber() {
+  var codigo = $("#codigo").val();
+  if (codigo != "") {
+     notasAjax.getNotaByCodigo(test,showTable);
+  } else {
+     notasAjax.getNotas(showTable);   
+  }
+}
+
+$(window).on('load',function(event){
+  searchForNumber();
+});
+
+$("#button_codigo").on('click',function(event){
+  searchForNumber();
+  event.preventDefault();
+});
+
+$('#codigo').on('input', function(event){
+  searchForNumber();
+});
+
+$('#codigo').on('blur',function(event){
+  searchForNumber();
+});
+

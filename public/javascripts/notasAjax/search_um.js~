@@ -1,0 +1,40 @@
+function search_um() {
+  var test = $("#numero").val();
+   if (test != "") {
+     $.ajax({
+       type: "GET",
+       url: "http://localhost:12345/requisitos/requisitos/numero/"+$("#numero").val(),
+       success: function(res){
+          $('#table_numero').dataTable().fnClearTable();	
+          $.each(res, function(i,item) {
+            $('#table_numero').dataTable().fnAddData([item.numero,item.requisito]);
+       	  });
+       },
+       error: function (XMLHttpRequest, textStatus, errorThrown) {
+         alert(errorThrown);
+       }	
+     });
+   } else {
+     $.ajax({
+       type: "GET",
+       url: "http://localhost:12345/requisitos/requisitos/all",
+       success: function(res){
+          $('#table_numero').dataTable().fnClearTable();	
+          $.each(res, function(i,item) {
+            $('#table_numero').dataTable().fnAddData([item.numero,item.requisito]);
+       	  });
+       },
+       error: function (XMLHttpRequest, textStatus, errorThrown) {
+         alert(errorThrown);
+       }	
+     });	   
+   }
+}
+
+$('#numero').on('blur',function(event){
+  search_um();
+});
+ 
+$('#numero').on('click',function(event){
+  search_um();
+});
