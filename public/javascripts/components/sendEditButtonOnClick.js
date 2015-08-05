@@ -10,8 +10,8 @@ function editShow(res){
        if (res.hasOwnProperty('codigo')) {
              $('#editCodigo').val(res.codigo);
              $('#versao').val(res.__v);
-             $('#editNota').data("wysihtml5").editor.setValue(res.nota);
-             $('#editTags').tokenfield('setTokens',res.tags);
+             $('#editNota').data("wysihtml5").editor.setValue(decodeURI(res.nota));
+             $('#editTags').tokenfield('setTokens',decodeURI(res.tags));
              $('#itemsArquivos').children().remove();
              if (res.arquivos.length != 0){
                     $('#listaArquivos').attr('style','display: none');

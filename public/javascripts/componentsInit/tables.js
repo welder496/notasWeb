@@ -2,7 +2,7 @@ function updateCodigo(res){
       $('#tableCodigo').dataTable().fnClearTable();
       if (res.length) {
             $.each(res, function(i,item) {
-                   $('#tableCodigo').dataTable().fnAddData([item.codigo,item.nota.substring(0,250).replace(/(<([^>]+)>)/ig,' ')+"<div><p> ...</p></div><div style='float:left;clear:left;'><em><strong>Tags: </strong></em>"+item.tags+"</div>","","",item.__v]);
+                   $('#tableCodigo').dataTable().fnAddData([item.codigo,decodeURI(item.nota).substring(0,250).replace(/(<([^>]+)>)/ig,' ')+"<div><p> ...</p></div><div style='float:left;clear:left;'><em><strong>Tags: </strong></em>"+item.tags+"</div>","","",item.__v]);
              });
       }
 }
@@ -11,7 +11,7 @@ function updateNota(res){
       $('#tableNota').dataTable().fnClearTable();
       if (res.length) {
              $.each(res, function(i,item) {
-                    $('#tableNota').dataTable().fnAddData([item.codigo,item.nota.substring(0,250).replace(/(<([^>]+)>)/ig,' ')+"<div><p> ...</p></div><div style='float:left;clear:left;'><em><strong>Tags: </strong></em>"+item.tags+"</div>","","",item.__v]);
+                    $('#tableNota').dataTable().fnAddData([item.codigo,decodeURI(item.nota).substring(0,250).replace(/(<([^>]+)>)/ig,' ')+"<div><p> ...</p></div><div style='float:left;clear:left;'><em><strong>Tags: </strong></em>"+item.tags+"</div>","","",item.__v]);
              });
       }
 }
@@ -20,7 +20,7 @@ function updateTags(res){
       $('#tableTags').dataTable().fnClearTable();
       if (res.length) {
              $.each(res, function(i,item) {
-                    $('#tableTags').dataTable().fnAddData([item.codigo,item.nota.substring(0,250).replace(/(<([^>]+)>)/ig,' ')+"<div><p> ...</p></div><div style='float:left;clear:left;'><em><strong>Tags: </strong></em>"+item.tags+"</div>","","",item.__v]);
+                    $('#tableTags').dataTable().fnAddData([item.codigo,decodeURI(item.nota).substring(0,250).replace(/(<([^>]+)>)/ig,' ')+"<div><p> ...</p></div><div style='float:left;clear:left;'><em><strong>Tags: </strong></em>"+item.tags+"</div>","","",item.__v]);
              });
       }
 }
